@@ -1,4 +1,4 @@
-#!/bin/bash/env pipenv-shebang
+#!/usr/bin/env pipenv-shebang
 import os
 
 import pandas as pd

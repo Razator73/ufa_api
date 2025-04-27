@@ -31,6 +31,16 @@ def upsert_rows(df_upsert, table_name, id_col):
         engine.dispose()
 
 
+def update_teams(df):
+    teams_df = df[['home_team_id', 'homeTeamCity', 'homeTeamName']].drop_duplicates()
+    team_renames = {
+        'home_team_id': 'id',
+        'homeTeamCity': 'team_city',
+        'homeTeamName': 'team_name'
+    }
+    teams_df = teams_df.rename(columns=team_renames)
+    upsert_rows(teams_df, 'teams', 'id')
+
 
 if __name__ == '__main__':
     load_dotenv()
@@ -50,15 +60,6 @@ if __name__ == '__main__':
         'startTimeTBD': 'start_time_tbd'
     }
     season_schedule = season_schedule.rename(columns=rename_cols)
-
-    teams_df = season_schedule[['home_team_id', 'homeTeamCity', 'homeTeamName']].drop_duplicates()
-    team_renames = {
-        'home_team_id': 'id',
-        'homeTeamCity': 'team_city',
-        'homeTeamName': 'team_name'
-    }
-    teams_df = teams_df.rename(columns=team_renames)
-    upsert_rows(teams_df, 'teams', 'id')
 
     season_schedule = season_schedule[season_schedule.week != '']
     season_schedule['week'] = season_schedule.week.str.replace('week-', '').astype(int)

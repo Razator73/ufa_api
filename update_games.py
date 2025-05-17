@@ -64,5 +64,4 @@ if __name__ == '__main__':
     season_schedule = season_schedule[season_schedule.week != '']
     season_schedule['week'] = season_schedule.week.str.replace('week-', '').astype(int)
     season_schedule['start_timestamp'] = pd.to_datetime(season_schedule.start_timestamp, utc=True)
-    season_schedule.loc[season_schedule.id == '2025-05-03-CAR-ATL', 'week'] = 2
     upsert_rows(season_schedule[rename_cols.values()], 'games', 'id')

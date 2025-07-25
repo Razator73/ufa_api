@@ -62,6 +62,7 @@ if __name__ == '__main__':
     season_schedule = season_schedule.rename(columns=rename_cols)
 
     season_schedule = season_schedule[season_schedule.week != '']
+    season_schedule = season_schedule[season_schedule.id != '2025-08-23-allstar-game']
     season_schedule['week'] = season_schedule.week.str.replace('week-', '').astype(int)
     season_schedule['start_timestamp'] = pd.to_datetime(season_schedule.start_timestamp, utc=True)
     upsert_rows(season_schedule[rename_cols.values()], 'games', 'id')
